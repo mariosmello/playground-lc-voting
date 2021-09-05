@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Idea;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -22,6 +23,7 @@ class ShowIdeasTest extends TestCase
     public function test_list_of_ideas_shows_on_main_page()
     {
 
+        $user = User::factory()->create();
         $categoryOne = Category::factory()->create(['name' => 'Category 1']);
         $categoryTwo = Category::factory()->create(['name' => 'Category 2']);
         $statusOne = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
@@ -29,6 +31,7 @@ class ShowIdeasTest extends TestCase
 
         $ideaOne = Idea::factory()->create([
             'title' => "My First Idea",
+            'user_id' => $user->id,
             'category_id' => $categoryOne->id,
             'status_id' => $statusOne->id,
             'description' => "Description of my first idea"
@@ -36,6 +39,7 @@ class ShowIdeasTest extends TestCase
 
         $ideaTwo = Idea::factory()->create([
             'title' => "My Second Idea",
+            'user_id' => $user->id,
             'category_id' => $categoryTwo->id,
             'status_id' => $statusTwo->id,
             'description' => "Description of my second idea"
@@ -57,11 +61,13 @@ class ShowIdeasTest extends TestCase
     public function test_single_idea_shows_on_the_show_page()
     {
 
+        $user = User::factory()->create();
         $category = Category::factory()->create(['name' => 'Category 1']);
         $status = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
 
         $idea = Idea::factory()->create([
             'title' => "My First Idea",
+            'user_id' => $user->id,
             'category_id' => $category->id,
             'status_id' => $status->id,
             'description' => "Description of my first idea"
